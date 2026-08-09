@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { site, waLink, works } from "@/content/site";
+import { site, waLink, works, type MediaItem, type Work } from "@/content/site";
 import { Reveal } from "@/components/site/Reveal";
 import { LazyVideo } from "@/components/site/LazyVideo";
 import { ZoomImage } from "@/components/site/ZoomImage";
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/works/$slug")({
 });
 
 function WorkDetail() {
-  const { work } = Route.useLoaderData();
+  const { work } = Route.useLoaderData() as { work: Work };
 
   return (
     <article className="mx-auto max-w-[1600px] px-5 pb-28 pt-32 md:px-10 md:pt-40">
@@ -108,7 +108,7 @@ function WorkDetail() {
         <section className="mt-20">
           <p className="eyebrow border-b border-border pb-4">Galería · proceso y close-ups</p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {work.gallery.map((m, i) => (
+            {work.gallery.map((m: MediaItem, i: number) => (
               <Reveal key={`${m.src}-${i}`} delay={i * 100}>
                 {m.type === "image" ? (
                   <ZoomImage src={m.src} alt={m.alt} className="aspect-[4/5]" />
