@@ -11,22 +11,21 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Header, Footer } from "@/components/site/Chrome";
+import { site } from "@/content/site";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
+        <h1 className="display text-7xl">404</h1>
+        <p className="mt-4 text-sm text-metal">Esta página no existe o fue movida.</p>
+        <div className="mt-8">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex border border-foreground px-6 py-3 text-[0.7rem] uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
           >
-            Go home
+            Volver al inicio
           </Link>
         </div>
       </div>
@@ -44,27 +43,20 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <h1 className="display text-3xl">Algo salió mal</h1>
+        <p className="mt-3 text-sm text-metal">Intenta recargar la página.</p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="border border-foreground px-6 py-3 text-[0.7rem] uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
           >
-            Try again
+            Reintentar
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
+          <a href="/" className="border border-border px-6 py-3 text-[0.7rem] uppercase tracking-[0.22em] text-light-smoke">
+            Inicio
           </a>
         </div>
       </div>
@@ -77,21 +69,45 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Ronald Ladino — Tatuador de Realismo y Black & Grey" },
+      {
+        name: "description",
+        content:
+          "Portfolio de Ronald Ladino, tatuador colombiano especializado en realismo y black & grey en Bucaramanga.",
+      },
+      { name: "author", content: "Ronald Ladino" },
+      { property: "og:site_name", content: "Ronald Ladino" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@300;400;500;600&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "TattooParlor",
+          name: site.studio,
+          founder: { "@type": "Person", name: "Ronald Ladino" },
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: site.address,
+            addressLocality: "Bucaramanga",
+            addressCountry: "CO",
+          },
+          telephone: "+573154637845",
+          openingHours: "Mo-Sa 10:00-19:00",
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -102,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>
@@ -119,8 +135,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <Header />
+      <main className="min-h-screen">
+        {/* Required: nested routes render here. */}
+        <Outlet />
+      </main>
+      <Footer />
     </QueryClientProvider>
   );
 }
