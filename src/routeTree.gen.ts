@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArtistRouteImport } from './routes/artist'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as SupplyRouteImport } from './routes/supply'
+import { Route as WorkRouteImport } from './routes/work'
+import { Route as StylesIndexRouteImport } from './routes/styles.index'
+import { Route as StylesSlugRouteImport } from './routes/styles.$slug'
+import { Route as WorksSlugRouteImport } from './routes/works.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArtistRoute = ArtistRouteImport.update({
+  id: '/artist',
+  path: '/artist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupplyRoute = SupplyRouteImport.update({
+  id: '/supply',
+  path: '/supply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkRoute = WorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StylesIndexRoute = StylesIndexRouteImport.update({
+  id: '/styles/',
+  path: '/styles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StylesSlugRoute = StylesSlugRouteImport.update({
+  id: '/styles/$slug',
+  path: '/styles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorksSlugRoute = WorksSlugRouteImport.update({
+  id: '/works/$slug',
+  path: '/works/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/artist': typeof ArtistRoute
+  '/studio': typeof StudioRoute
+  '/supply': typeof SupplyRoute
+  '/work': typeof WorkRoute
+  '/styles/$slug': typeof StylesSlugRoute
+  '/works/$slug': typeof WorksSlugRoute
+  '/styles/': typeof StylesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/artist': typeof ArtistRoute
+  '/studio': typeof StudioRoute
+  '/supply': typeof SupplyRoute
+  '/work': typeof WorkRoute
+  '/styles/$slug': typeof StylesSlugRoute
+  '/works/$slug': typeof WorksSlugRoute
+  '/styles': typeof StylesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/artist': typeof ArtistRoute
+  '/studio': typeof StudioRoute
+  '/supply': typeof SupplyRoute
+  '/work': typeof WorkRoute
+  '/styles/$slug': typeof StylesSlugRoute
+  '/works/$slug': typeof WorksSlugRoute
+  '/styles/': typeof StylesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/artist'
+    | '/studio'
+    | '/supply'
+    | '/work'
+    | '/styles/$slug'
+    | '/works/$slug'
+    | '/styles/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/artist'
+    | '/studio'
+    | '/supply'
+    | '/work'
+    | '/styles/$slug'
+    | '/works/$slug'
+    | '/styles'
+  id:
+    | '__root__'
+    | '/'
+    | '/artist'
+    | '/studio'
+    | '/supply'
+    | '/work'
+    | '/styles/$slug'
+    | '/works/$slug'
+    | '/styles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArtistRoute: typeof ArtistRoute
+  StudioRoute: typeof StudioRoute
+  SupplyRoute: typeof SupplyRoute
+  WorkRoute: typeof WorkRoute
+  StylesSlugRoute: typeof StylesSlugRoute
+  WorksSlugRoute: typeof WorksSlugRoute
+  StylesIndexRoute: typeof StylesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +143,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/artist': {
+      id: '/artist'
+      path: '/artist'
+      fullPath: '/artist'
+      preLoaderRoute: typeof ArtistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/supply': {
+      id: '/supply'
+      path: '/supply'
+      fullPath: '/supply'
+      preLoaderRoute: typeof SupplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/styles/': {
+      id: '/styles/'
+      path: '/styles'
+      fullPath: '/styles/'
+      preLoaderRoute: typeof StylesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/styles/$slug': {
+      id: '/styles/$slug'
+      path: '/styles/$slug'
+      fullPath: '/styles/$slug'
+      preLoaderRoute: typeof StylesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/works/$slug': {
+      id: '/works/$slug'
+      path: '/works/$slug'
+      fullPath: '/works/$slug'
+      preLoaderRoute: typeof WorksSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArtistRoute: ArtistRoute,
+  StudioRoute: StudioRoute,
+  SupplyRoute: SupplyRoute,
+  WorkRoute: WorkRoute,
+  StylesSlugRoute: StylesSlugRoute,
+  WorksSlugRoute: WorksSlugRoute,
+  StylesIndexRoute: StylesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
