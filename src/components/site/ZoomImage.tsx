@@ -34,7 +34,7 @@ export function ZoomImage({
           loading="lazy"
           decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 ease-out"
-          style={{ transformOrigin: origin, transform: hover ? "scale(1.6)" : "scale(1)" }}
+          style={{ transformOrigin: origin, transform: hover ? "scale(1.28)" : "scale(1)" }}
         />
       </button>
 

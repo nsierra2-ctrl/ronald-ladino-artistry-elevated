@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { media, site, timeline, waLink } from "@/content/site";
+import { media, site, timeline, artistGallery, reels, waLink } from "@/content/site";
 import { Reveal } from "@/components/site/Reveal";
+import { LazyVideo } from "@/components/site/LazyVideo";
+
 
 export const Route = createFileRoute("/artist")({
   head: () => ({
@@ -102,6 +104,50 @@ function ArtistPage() {
         </div>
       </section>
 
+      {/* GALERÍA EDITORIAL DEL ARTISTA */}
+      <section className="border-y border-border bg-obsidian px-5 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[1600px]">
+          <Reveal>
+            <p className="eyebrow">Detrás de la máquina</p>
+            <h2 className="display mt-4 text-4xl md:text-6xl">El oficio, día a día</h2>
+          </Reveal>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {artistGallery.map((g, i) => (
+              <Reveal key={g.src + i} delay={i * 90}>
+                <figure className="group relative overflow-hidden bg-smoke">
+                  <img
+                    src={g.src}
+                    alt={g.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-[3/4] w-full object-cover grayscale transition-all duration-[1.4s] ease-out group-hover:scale-[1.05] group-hover:grayscale-0"
+                  />
+                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-obsidian/90 to-transparent p-4 text-[0.65rem] uppercase tracking-[0.22em] text-light-smoke">
+                    {g.caption}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {reels.slice(0, 2).map((r, i) => (
+              <Reveal key={r.src + i} delay={i * 120}>
+                <div className="group relative aspect-video overflow-hidden bg-smoke">
+                  <LazyVideo
+                    src={r.src}
+                    label={r.label}
+                    className="h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent" />
+                  <p className="pointer-events-none absolute bottom-4 left-4 eyebrow">{r.note}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       <section className="border-t border-border px-5 py-24 md:px-10">
         <div className="mx-auto max-w-[1600px]">
           <Reveal>
@@ -122,17 +168,15 @@ function ArtistPage() {
               href={waLink(site.whatsappArtist, "Hola Ronald, quiero cotizar un tatuaje.")}
               target="_blank"
               rel="noreferrer"
-              className="bg-foreground px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-background hover:opacity-80"
+              className="btn-solid"
             >
-              Reservar con Ronald
+              <span>Reservar con Ronald</span>
             </a>
-            <Link
-              to="/work"
-              className="border border-border px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-light-smoke hover:border-foreground hover:text-foreground"
-            >
-              Ver su obra
+            <Link to="/work" className="btn-ghost">
+              <span>Ver su obra</span>
             </Link>
           </div>
+
         </div>
       </section>
     </>

@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { media, site, works, styles, timeline, waLink } from "@/content/site";
+import { media, site, works, styles, timeline, reels, waLink } from "@/content/site";
 import { Reveal } from "@/components/site/Reveal";
 import { LazyVideo } from "@/components/site/LazyVideo";
+import { WorkCarousel } from "@/components/site/WorkCarousel";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,81 +56,54 @@ function Home() {
                 href={waLink(site.whatsappArtist, "Hola Ronald, quiero cotizar un tatuaje.")}
                 target="_blank"
                 rel="noreferrer"
-                className="border border-foreground bg-foreground px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-80"
+                className="btn-solid"
               >
-                Reservar sesión
+                <span>Reservar sesión</span>
               </a>
-              <Link
-                to="/work"
-                className="border border-border px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-light-smoke transition-colors hover:border-foreground hover:text-foreground"
-              >
-                Ver obra
+              <Link to="/work" className="btn-ghost">
+                <span>Ver obra</span>
               </Link>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* SIGNATURE WORKS */}
+      {/* PORTFOLIO CARRUSEL */}
       <section className="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-6">
             <div>
-              <p className="eyebrow">Signature Works</p>
+              <p className="eyebrow">Portafolio · Signature Works</p>
               <h2 className="display mt-4 text-5xl md:text-7xl">Obras que definen</h2>
             </div>
-            <Link to="/work" className="text-[0.7rem] uppercase tracking-[0.22em] text-metal hover:text-foreground">
-              Portfolio completo
+            <Link to="/work" className="btn-ghost">
+              <span>Portfolio completo</span>
             </Link>
           </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {signature.map((w, i) => (
-            <Reveal key={w.slug} delay={i * 120} className={i === 0 ? "md:col-span-2" : ""}>
-              <Link to="/works/$slug" params={{ slug: w.slug }} className="group block">
-                <div className={`overflow-hidden bg-smoke ${i === 0 ? "aspect-[16/10]" : "aspect-[4/5]"}`}>
-                  {w.cover.type === "image" ? (
-                    <img
-                      src={w.cover.src}
-                      alt={w.cover.alt}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
-                    />
-                  ) : (
-                    <LazyVideo
-                      src={w.cover.src}
-                      label={w.cover.alt}
-                      className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
-                    />
-                  )}
-                </div>
-                <div className="mt-4 flex items-baseline justify-between gap-4">
-                  <h3 className="display text-2xl">{w.title}</h3>
-                  <span className="text-[0.65rem] uppercase tracking-[0.22em] text-metal">
-                    {w.style} · {w.year}
-                  </span>
-                </div>
-                <p className="mt-2 max-w-lg text-sm text-metal">{w.excerpt}</p>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={100} className="mt-12">
+          <WorkCarousel items={works} />
+        </Reveal>
       </section>
+
 
       {/* ARTIST STATEMENT */}
       <section className="border-y border-border bg-obsidian px-5 py-24 md:px-10 md:py-36">
         <div className="mx-auto grid max-w-[1600px] gap-16 md:grid-cols-[1fr_1.1fr] md:items-center">
           <Reveal>
-            <img
-              src={media.artistWorking}
-              alt="Ronald Ladino tatuando un hombro en su estudio"
-              loading="lazy"
-              decoding="async"
-              className="aspect-[4/5] w-full object-cover"
-            />
+            <div className="group relative overflow-hidden bg-smoke">
+              <img
+                src={media.ronaldPortrait}
+                alt="Ronald Ladino tatuando con su máquina rotativa"
+                loading="lazy"
+                decoding="async"
+                className="aspect-[4/5] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]"
+              />
+            </div>
           </Reveal>
+
           <Reveal delay={140}>
             <p className="eyebrow">The Art of Ronald Ladino</p>
             <h2 className="display mt-5 text-4xl leading-[0.95] md:text-6xl">
@@ -147,12 +122,10 @@ function Home() {
                 Arte, pasión y perfección no son un eslogan: son el orden en que trabajo.
               </p>
             </div>
-            <Link
-              to="/artist"
-              className="mt-10 inline-flex border border-border px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-light-smoke hover:border-foreground hover:text-foreground"
-            >
-              Conocer al artista
+            <Link to="/artist" className="btn-ghost mt-10">
+              <span>Conocer al artista</span>
             </Link>
+
           </Reveal>
         </div>
       </section>
@@ -183,6 +156,42 @@ function Home() {
           ))}
         </div>
       </section>
+
+      {/* REELS · EL FILM */}
+      <section className="border-y border-border bg-obsidian px-5 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[1600px]">
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-6">
+              <div>
+                <p className="eyebrow">En movimiento</p>
+                <h2 className="display mt-4 text-5xl md:text-7xl">El proceso, en video</h2>
+              </div>
+              <p className="max-w-sm text-sm text-metal">
+                Sesiones reales, piel cicatrizada y jornadas completas dentro del estudio.
+              </p>
+            </div>
+          </Reveal>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {reels.map((r, i) => (
+              <Reveal key={r.src + i} delay={i * 100}>
+                <div className="group relative aspect-[9/16] overflow-hidden bg-smoke">
+                  <LazyVideo
+                    src={r.src}
+                    label={r.label}
+                    className="h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/85 via-transparent to-transparent" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4">
+                    <p className="eyebrow">{r.note}</p>
+                    <h3 className="display mt-1 text-2xl">{r.title}</h3>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* TIMELINE */}
       <section className="border-t border-border px-5 py-24 md:px-10">
@@ -220,13 +229,14 @@ function Home() {
             También casa del Supply para tatuadores de la región.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/studio" className="border border-foreground px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] hover:bg-foreground hover:text-background">
-              Ver el estudio
+            <Link to="/studio" className="btn-solid">
+              <span>Ver el estudio</span>
             </Link>
-            <Link to="/supply" className="border border-border px-8 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-light-smoke hover:border-foreground hover:text-foreground">
-              Supply
+            <Link to="/supply" className="btn-ghost">
+              <span>Supply</span>
             </Link>
           </div>
+
         </div>
       </section>
     </>
